@@ -8,8 +8,8 @@
 ```
         <dependency>
           <groupId>com.openquartz</groupId>
-          <artifactId>bizlog-sdk</artifactId>
-          <version>3.0.6</version>
+          <artifactId>easybizlog-spring-boo-starter-jdbc</artifactId>
+          <version>1.0.0</version>
         </dependency>
 ```
 #### SpringBoot入口打开开关,添加 @EnableLogRecord 注解
@@ -225,7 +225,6 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 可以在方法中通过 LogRecordContext.putVariable(variableName, Object) 的方法添加变量，第一个对象为变量名称，后面为变量的对象， 然后我们就可以使用 SpEL 使用这个变量了，例如：例子中的
 {{#innerOrder.productName}} 是在方法中设置的变量，除此之外，在上面提到的自定义函数中也可以使用LogRecordContext中的变量。
-~~（注意：LogRecordContext中变量的生命周期为这个方法，超出这个方法，方法中set到Context的变量就获取不到了）~~
 
 若想跨方法使用，可通过LogRecordContext.putGlobalVariable(variableName, Object) 放入上下文中，此优先级为最低，若方法上下文中存在相同的变量，则会覆盖
 
