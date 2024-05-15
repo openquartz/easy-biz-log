@@ -19,7 +19,8 @@ log/
 logs/
 *.class
 target/
-*.flattended-pom.xml
+
+.flattened-pom.xml
 
 #package
 *.jar
@@ -28,3 +29,4 @@ target/
 
 #xfTest
 mtgravity-thrift/mtgravity-service-client/src/test/**/XfTest.java
+/.flattened-pom.xml
