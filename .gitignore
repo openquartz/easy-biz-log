@@ -19,7 +19,7 @@ log/
 logs/
 *.class
 target/
-.flattended-pom.xml
+*.flattended-pom.xml
 
 #package
 *.jar
