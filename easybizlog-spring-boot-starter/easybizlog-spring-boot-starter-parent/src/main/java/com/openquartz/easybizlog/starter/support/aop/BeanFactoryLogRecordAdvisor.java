@@ -4,8 +4,6 @@ import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractBeanFactoryPointcutAdvisor;
 
 /**
- * DATE 4:45 PM
- *
  * @author svnee
  */
 public class BeanFactoryLogRecordAdvisor extends AbstractBeanFactoryPointcutAdvisor {

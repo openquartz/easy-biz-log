@@ -8,8 +8,6 @@ import org.springframework.core.Ordered;
 import java.lang.annotation.*;
 
 /**
- * DATE 6:28 PM
- *
  * @author svnee
  */
 @Target(ElementType.TYPE)

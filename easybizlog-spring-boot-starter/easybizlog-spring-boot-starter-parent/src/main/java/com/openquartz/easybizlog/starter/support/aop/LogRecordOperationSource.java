@@ -15,8 +15,6 @@ import java.lang.reflect.Modifier;
 import java.util.*;
 
 /**
- * DATE 6:03 PM
- *
  * @author svnee
  */
 public class LogRecordOperationSource {

@@ -8,8 +8,6 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
- * DATE 4:45 PM
- *
  * @author svnee
  */
 public class LogRecordPointcut extends StaticMethodMatcherPointcut implements Serializable {

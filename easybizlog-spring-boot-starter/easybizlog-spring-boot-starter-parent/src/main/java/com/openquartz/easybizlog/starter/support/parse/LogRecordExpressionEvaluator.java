@@ -13,8 +13,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * DATE 4:38 PM
- *
  * @author svnee
  */
 public class LogRecordExpressionEvaluator extends CachedExpressionEvaluator {

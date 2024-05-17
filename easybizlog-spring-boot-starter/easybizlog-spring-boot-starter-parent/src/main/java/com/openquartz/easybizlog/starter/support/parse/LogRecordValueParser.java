@@ -16,7 +16,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * DATE 3:32 PM
  * 解析需要存储的日志里面的SpeEL表达式
  *
  * @author svnee

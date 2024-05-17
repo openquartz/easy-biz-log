@@ -8,8 +8,6 @@ import org.springframework.context.annotation.AutoProxyRegistrar;
 import org.springframework.lang.Nullable;
 
 /**
- * DATE 6:57 PM
- *
  * @author svnee
  */
 public class LogRecordConfigureSelector extends AdviceModeImportSelector<EnableLogRecord> {
