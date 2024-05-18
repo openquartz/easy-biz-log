@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(exclude = {DataSourceTransactionManagerAutoConfiguration.class})
 @MapperScan(basePackages = "com.openquartz.logserver.repository.mapper", annotationClass = Mapper.class)
-@EnableLogRecord(tenant = "", joinTransaction = true)
+@EnableLogRecord(tenant = "OpenQuartz", joinTransaction = true)
 @EnableTransactionManagement(order = 0)
 @EnableSpringUtil
 public class Main {

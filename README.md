@@ -317,6 +317,7 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 ###### 11. 使用对象 diff 功能
 
+支持字段别名,自定义格式化,数据脱敏,数据对象自定义深度解析等特性
 详见  [java-obj-diff使用说明](https://github.com/openquartz/java-obj-diff)
 
 ###### 12. 增加了操作日志 Monitor 监控接口
@@ -402,10 +403,6 @@ mzt:
 ```
 重载后的比对结果为：
 >【localDate】从【2023-02-24】修改为【-999999999-01-01】
-
-###### 17.数据脱敏支持
-开发中.....
-
 
 #### 框架的扩展点
 
