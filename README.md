@@ -1,6 +1,6 @@
 # Springboot-注解-通用操作日志组件
 
-本项目基于项目 `https://github.com/mouzt/mzt-biz-log` 做了一些定制改造优化。\
+本项目基于项目 [`mzt-biz-log`](https://github.com/mouzt/mzt-biz-log) 做了一些定制改造优化。\
 1、更加适配多种定制存储starter包的扩展。\
 2、使用[`java-obj-diff`](https://github.com/openquartz/java-obj-diff)项目做对象差异比对工具。支持自定义对象解析,自定义类型比较器,差异结果脱敏等特性。
 
