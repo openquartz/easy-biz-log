@@ -62,11 +62,13 @@ public class LogRecordAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public BeanFactoryLogRecordAdvisor logRecordAdvisor(LogRecordProperties logRecordProperties) {
+    public BeanFactoryLogRecordAdvisor logRecordAdvisor(LogRecordProperties logRecordProperties,
+        LogRecordInterceptor logRecordInterceptor,
+        LogRecordOperationSource logRecordOperationSource) {
         BeanFactoryLogRecordAdvisor advisor =
             new BeanFactoryLogRecordAdvisor();
-        advisor.setLogRecordOperationSource(logRecordOperationSource());
-        advisor.setAdvice(logRecordInterceptor(logRecordProperties));
+        advisor.setLogRecordOperationSource(logRecordOperationSource);
+        advisor.setAdvice(logRecordInterceptor);
         advisor.setOrder(logRecordProperties.getLogRecordAdviceOrder());
         return advisor;
     }

@@ -2,10 +2,10 @@ package com.openquartz.easybizlog.storage.jdbc.mapper;
 
 import com.openquartz.easybizlog.storage.jdbc.CustomerJdbcTemplate;
 import com.openquartz.easybizlog.storage.jdbc.model.LogRecordDO;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class LogRecordMapperImpl implements LogRecordMapper {
                 ps.setString(7, entity.getSubType());
                 ps.setString(8, entity.getCodeVariable());
                 ps.setString(9, entity.getTenant());
-                ps.setDate(10, new Date(entity.getCreateTime().getTime()));
+                ps.setTimestamp(10, new Timestamp(entity.getCreateTime().getTime()));
             }
 
             @Override
@@ -92,7 +92,7 @@ public class LogRecordMapperImpl implements LogRecordMapper {
         logRecordDO.setSubType(rs.getString("sub_type"));
         logRecordDO.setCodeVariable(rs.getString("code_variable"));
         logRecordDO.setTenant(rs.getString("tenant"));
-        logRecordDO.setCreateTime(rs.getDate("create_time"));
+        logRecordDO.setCreateTime(rs.getTimestamp("create_time"));
         logRecordDO.setId(rs.getLong("id"));
         return logRecordDO;
     }
