@@ -22,7 +22,7 @@
     <properties>
         <java.version>1.8</java.version>
 
-        <reversion>1.0.0</reversion>
+        <reversion>1.1.0-SNAPSHOT</reversion>
         <spring-boot.version>2.3.2.RELEASE</spring-boot.version>
         <java-object-diff.version>1.0.0</java-object-diff.version>
         <lombok.version>1.18.12</lombok.version>
@@ -101,6 +101,12 @@
             <dependency>
                 <groupId>com.openquartz</groupId>
                 <artifactId>easybizlog-storage-jdbc</artifactId>
+                <version>${reversion}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.openquartz</groupId>
+                <artifactId>easybizlog-storage-es</artifactId>
                 <version>${reversion}</version>
             </dependency>
 

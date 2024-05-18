@@ -18,6 +18,7 @@
     <modules>
         <module>easybizlog-spring-boot-starter-parent</module>
         <module>easybizlog-spring-boot-starter-jdbc</module>
+        <module>easybizlog-spring-boot-starter-es</module>
     </modules>
 
     <dependencies>

@@ -17,6 +17,7 @@
     <modules>
         <module>easybizlog-storage-api</module>
         <module>easybizlog-storage-jdbc</module>
+        <module>easybizlog-storage-es</module>
     </modules>
 
 </project>
