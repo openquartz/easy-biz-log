@@ -1,5 +1,9 @@
 # Springboot-注解-通用操作日志组件
 
+本项目基于项目 `https://github.com/mouzt/mzt-biz-log` 做了一些定制改造优化。\
+1、更加适配多种定制存储starter包的扩展。\
+2、使用[`java-obj-diff`](https://github.com/openquartz/java-obj-diff)项目做对象差异比对工具。支持自定义对象解析,自定义类型比较器,差异结果脱敏等特性。
+
 ## 快速入门
 ### 基本使用
 
@@ -469,7 +473,6 @@ public class UserParseFunction implements IParseFunction {
     }
 }
 ```
-* IDiffItemsToLogContentService 用户可以自己实现这个接口实现 对象的diff功能，只需要继承这个接口加上 @Service 然后放在 Spring 容器中就可以覆盖默认的实现了
 
 #### 变量相关
 
