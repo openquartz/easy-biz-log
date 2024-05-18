@@ -1,6 +1,5 @@
 package com.openquartz.logserver.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.openquartz.easybizlog.common.context.LogRecordContext;
 import com.openquartz.easybizlog.core.annotation.LogRecord;
 import com.openquartz.logserver.service.IOrderService;
@@ -9,6 +8,7 @@ import com.openquartz.logserver.infrastructure.constants.LogRecordType;
 import com.openquartz.logserver.pojo.Order;
 import com.openquartz.logserver.pojo.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -56,7 +56,7 @@ public class UserServiceImpl extends AbsUserServiceImpl implements IUserService 
     public boolean testGlobalVariableCover(User user, Order order) {
         User newUser = new User();
         LogRecordContext.putGlobalVariable("user", user);
-        BeanUtil.copyProperties(user, newUser);
+        BeanUtils.copyProperties(user, newUser);
         newUser.setName("李四");
         orderService.testGlobalVariableCover(order, newUser);
         return false;

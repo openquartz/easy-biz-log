@@ -49,12 +49,6 @@
             <artifactId>easybizlog-storage-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.openquartz</groupId>
-            <artifactId>easybizlog-storage-jdbc</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
     </dependencies>
 
     <build>

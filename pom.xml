@@ -31,7 +31,6 @@
         <druid.version>1.2.0</druid.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <fast-object-diff.version>1.1</fast-object-diff.version>
-        <hutool.version>5.5.9</hutool.version>
         <guava.version>30.1.1-jre</guava.version>
         <podam.version>7.2.7.RELEASE</podam.version>
 
@@ -133,12 +132,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-all</artifactId>
-                <version>${hutool.version}</version>
             </dependency>
 
             <dependency>
