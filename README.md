@@ -162,10 +162,6 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 * apply()函数参数是 "{ORDER{#orderId}}"中SpEL解析的#orderId的值，这里是一个数字1223110，接下来只需要在实现的类中把 ID 转换为可读懂的字符串就可以了，
   一般为了方便排查问题需要把名称和ID都展示出来，例如："订单名称（ID）"的形式。
 
-> 这里有个问题：加了自定义函数后，框架怎么能调用到呢？ 答：对于Spring boot应用很简单，只需要把它暴露在Spring的上下文中就可以了，可以加上Spring的 @Component 或者 @Service 很方便😄。Spring mvc 应用需要自己装配 Bean。
-
-> ！！！自定义函数 的参数 从 1.1.0 开始，从String 更改为了Object，老版本需要修改一下定义
-
 ```
     // 没有使用自定义函数
     @LogRecord(success = "更新了订单{{#orderId}},更新内容为....",
