@@ -25,11 +25,11 @@ public class LogRecordMapperImpl implements LogRecordMapper {
      */
     public static final String GENERATED_KEY = "GENERATED_KEY";
 
-    private static final String INSERT_SQL = "insert into t_biz_log(biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time) values(?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_SQL = "insert into ebl_biz_log(biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time) values(?,?,?,?,?,?,?,?,?,?)";
 
-    private static final String SELECT_BIZ_NO_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from t_biz_log where biz_no = ? and type = ?";
+    private static final String SELECT_BIZ_NO_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from ebl_biz_log where biz_no = ? and type = ?";
 
-    private static final String SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from t_biz_log where biz_no = ? and type = ? and sub_type = ?";
+    private static final String SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from ebl_biz_log where biz_no = ? and type = ? and sub_type = ?";
 
     public LogRecordMapperImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
