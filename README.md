@@ -3,8 +3,8 @@
 ## 快速入门
 ### 基本使用
 
-#### maven依赖添加SDK依赖
-
+#### maven依赖添加对应的starter依赖
+使用jdbc-mysql存储时, 需要添加对应的依赖
 ```
         <dependency>
           <groupId>com.openquartz</groupId>
@@ -12,19 +12,7 @@
           <version>1.0.0</version>
         </dependency>
 ```
-#### SpringBoot入口打开开关,添加 @EnableLogRecord 注解
-tenant是代表租户的标识，一般一个服务或者一个业务下的多个服务都写死一个 tenant 就可以
-```java
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
-@EnableTransactionManagement
-@EnableLogRecord(tenant = "OpenQuartz")
-public class Main {
 
-  public static void main(String[] args) {
-    SpringApplication.run(Main.class, args);
-  }
-}
-```
 #### 日志埋点
 ###### 1. 普通的记录日志
 
