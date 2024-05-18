@@ -15,11 +15,10 @@ management:
         include: configprops, env, health
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: 9527
-    schema: classpath:/sql/create.sql
+    url: jdbc:mysql://localhost:3306/openquartz?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 123456
     initialSize: 5
     minIdle: 5
     maxActive: 20
