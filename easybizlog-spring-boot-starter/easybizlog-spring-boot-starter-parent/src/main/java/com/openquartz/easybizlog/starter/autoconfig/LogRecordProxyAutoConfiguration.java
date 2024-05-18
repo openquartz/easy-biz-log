@@ -22,6 +22,7 @@ import com.openquartz.easybizlog.storage.jdbc.mapper.LogRecordMapperImpl;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import javax.sql.DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -32,6 +33,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportAware;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Role;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
@@ -127,14 +129,25 @@ public class LogRecordProxyAutoConfiguration implements ImportAware {
     }
 
     @Bean
+    @ConditionalOnClass({DataSource.class, JdbcTemplate.class})
+    @ConditionalOnBean(DataSource.class)
+    @ConditionalOnMissingBean(JdbcTemplate.class)
+    @Role(BeanDefinition.ROLE_APPLICATION)
+    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
     @ConditionalOnClass(JdbcTemplate.class)
     @ConditionalOnBean(JdbcTemplate.class)
     @ConditionalOnMissingBean(LogRecordMapper.class)
+    @Role(BeanDefinition.ROLE_APPLICATION)
     public LogRecordMapper logRecordMapper(JdbcTemplate jdbcTemplate) {
         return new LogRecordMapperImpl(jdbcTemplate);
     }
 
     @Bean
+    @Primary
     @ConditionalOnBean(LogRecordMapper.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
     public ILogRecordService jdbcRecordService(LogRecordMapper logRecordMapper) {

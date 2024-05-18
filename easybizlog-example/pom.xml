@@ -22,11 +22,6 @@
             <artifactId>easybizlog-spring-boot-starter-jdbc</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-        </dependency>
-
         <!--druid 依赖-->
         <dependency>
             <groupId>com.alibaba</groupId>

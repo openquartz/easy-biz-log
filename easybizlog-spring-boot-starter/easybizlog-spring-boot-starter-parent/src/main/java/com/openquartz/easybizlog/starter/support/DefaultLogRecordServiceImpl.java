@@ -11,7 +11,7 @@ public class DefaultLogRecordServiceImpl implements ILogRecordService {
 
     @Override
     public void record(LogRecord logRecord) {
-        log.info("[LogRecordService] record:{}", logRecord);
+        log.info("[DefaultLogRecordService] record:{}", logRecord);
     }
 
     @Override
