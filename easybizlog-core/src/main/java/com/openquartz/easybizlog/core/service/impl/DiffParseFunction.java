@@ -1,19 +1,14 @@
 package com.openquartz.easybizlog.core.service.impl;
 
 import com.openquartz.easybizlog.common.context.LogRecordContext;
-import com.openquartz.easybizlog.core.diff.ArrayDiffer;
-import com.openquartz.easybizlog.core.diff.IDiffItemsToLogContentService;
-import de.danielbechler.diff.ObjectDifferBuilder;
-import de.danielbechler.diff.comparison.ComparisonService;
-import de.danielbechler.diff.node.DiffNode;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.aop.support.AopUtils;
-
+import com.openquartz.javaobjdiff.DiffUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.support.AopUtils;
 
 /**
  * @author svnee
@@ -22,8 +17,6 @@ import java.util.Set;
 public class DiffParseFunction {
     public static final String diffFunctionName = "_DIFF";
     public static final String OLD_OBJECT = "_oldObj";
-
-    private IDiffItemsToLogContentService diffItemsToLogContentService;
 
     private final Set<Class<?>> comparisonSet = new HashSet<>();
 
@@ -48,27 +41,16 @@ public class DiffParseFunction {
             }
         }
         if (!Objects.equals(AopUtils.getTargetClass(source.getClass()), AopUtils.getTargetClass(target.getClass()))) {
-            log.error("diff的两个对象类型不同, source.class={}, target.class={}", source.getClass().toString(), target.getClass().toString());
+            log.error("diff的两个对象类型不同, source.class={}, target.class={}", source.getClass(), target.getClass());
             return "";
         }
-        ObjectDifferBuilder objectDifferBuilder = ObjectDifferBuilder.startBuilding();
-        ObjectDifferBuilder register = objectDifferBuilder
-                .differs().register((differDispatcher, nodeQueryService) ->
-                        new ArrayDiffer(differDispatcher, (ComparisonService) objectDifferBuilder.comparison(), objectDifferBuilder.identity()));
-        for (Class<?> clazz : comparisonSet) {
-            register.comparison().ofType(clazz).toUseEqualsMethod();
-        }
-        DiffNode diffNode = register.build().compare(target, source);
-        return diffItemsToLogContentService.toLogContent(diffNode, source, target);
+
+        return DiffUtils.diff(source, target);
     }
 
     public String diff(Object newObj) {
         Object oldObj = LogRecordContext.getMethodOrGlobal(OLD_OBJECT);
         return diff(oldObj, newObj);
-    }
-
-    public void setDiffItemsToLogContentService(IDiffItemsToLogContentService diffItemsToLogContentService) {
-        this.diffItemsToLogContentService = diffItemsToLogContentService;
     }
 
     public void addUseEqualsClass(List<String> classList) {
@@ -84,7 +66,7 @@ public class DiffParseFunction {
         }
     }
 
-    public void addUseEqualsClass(Class clazz) {
+    public void addUseEqualsClass(Class<?> clazz) {
         comparisonSet.add(clazz);
     }
 }

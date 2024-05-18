@@ -12,8 +12,6 @@ import com.openquartz.easybizlog.core.service.IParseFunction;
 import com.openquartz.easybizlog.core.service.impl.DefaultLogRecordPerformanceMonitor;
 import com.openquartz.easybizlog.starter.annotation.EnableLogRecord;
 import com.openquartz.easybizlog.starter.support.DefaultLogRecordServiceImpl;
-import com.openquartz.easybizlog.starter.support.diff.DefaultDiffItemsToLogContentService;
-import com.openquartz.easybizlog.core.diff.IDiffItemsToLogContentService;
 import com.openquartz.easybizlog.starter.support.aop.BeanFactoryLogRecordAdvisor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordInterceptor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordOperationSource;
@@ -79,7 +77,7 @@ public class LogRecordProxyAutoConfiguration implements ImportAware {
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public BeanFactoryLogRecordAdvisor logRecordAdvisor(LogRecordProperties logRecordProperties) {
         BeanFactoryLogRecordAdvisor advisor =
-                new BeanFactoryLogRecordAdvisor();
+            new BeanFactoryLogRecordAdvisor();
         advisor.setLogRecordOperationSource(logRecordOperationSource());
         advisor.setAdvice(logRecordInterceptor(logRecordProperties.getDiffLog()));
         advisor.setOrder(enableLogRecord.getNumber("order"));
@@ -105,23 +103,13 @@ public class LogRecordProxyAutoConfiguration implements ImportAware {
     }
 
     @Bean
-    public DiffParseFunction diffParseFunction(IDiffItemsToLogContentService diffItemsToLogContentService,
-                                               LogRecordProperties logRecordProperties) {
+    public DiffParseFunction diffParseFunction(LogRecordProperties logRecordProperties) {
         DiffParseFunction diffParseFunction = new DiffParseFunction();
-        diffParseFunction.setDiffItemsToLogContentService(diffItemsToLogContentService);
-        // issue#111
         diffParseFunction.addUseEqualsClass(LocalDateTime.class);
         if (!StringUtils.isEmpty(logRecordProperties.getUseEqualsMethod())) {
             diffParseFunction.addUseEqualsClass(Arrays.asList(logRecordProperties.getUseEqualsMethod().split(",")));
         }
         return diffParseFunction;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean(IDiffItemsToLogContentService.class)
-    @Role(BeanDefinition.ROLE_APPLICATION)
-    public IDiffItemsToLogContentService diffItemsToLogContentService(LogRecordProperties logRecordProperties) {
-        return new DefaultDiffItemsToLogContentService(logRecordProperties);
     }
 
     @Bean
@@ -142,7 +130,7 @@ public class LogRecordProxyAutoConfiguration implements ImportAware {
     @ConditionalOnClass(JdbcTemplate.class)
     @ConditionalOnBean(JdbcTemplate.class)
     @ConditionalOnMissingBean(LogRecordMapper.class)
-    public LogRecordMapper logRecordMapper(JdbcTemplate jdbcTemplate){
+    public LogRecordMapper logRecordMapper(JdbcTemplate jdbcTemplate) {
         return new LogRecordMapperImpl(jdbcTemplate);
     }
 
@@ -156,7 +144,7 @@ public class LogRecordProxyAutoConfiguration implements ImportAware {
     @Override
     public void setImportMetadata(AnnotationMetadata importMetadata) {
         this.enableLogRecord = AnnotationAttributes.fromMap(
-                importMetadata.getAnnotationAttributes(EnableLogRecord.class.getName(), false));
+            importMetadata.getAnnotationAttributes(EnableLogRecord.class.getName(), false));
         if (this.enableLogRecord == null) {
             log.info("EnableLogRecord is not present on importing class");
         }

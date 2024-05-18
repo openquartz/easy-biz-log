@@ -21,7 +21,7 @@ public class LogFunctionParser {
         if (StringUtils.isEmpty(functionName)) {
             return value == null ? Strings.EMPTY : value.toString();
         }
-        String functionReturnValue = "";
+        String functionReturnValue;
         String functionCallInstanceKey = getFunctionCallInstanceKey(functionName, expression);
         if (beforeFunctionNameAndReturnMap != null && beforeFunctionNameAndReturnMap.containsKey(functionCallInstanceKey)) {
             functionReturnValue = beforeFunctionNameAndReturnMap.get(functionCallInstanceKey);

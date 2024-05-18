@@ -23,7 +23,6 @@ target/
 .flattened-pom.xml
 
 #package
-*.jar
 *.war
 *.ear
 

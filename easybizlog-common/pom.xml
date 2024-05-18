@@ -58,9 +58,10 @@
         </dependency>
 
         <dependency>
-            <groupId>de.danielbechler</groupId>
-            <artifactId>java-object-diff</artifactId>
+            <groupId>com.openquartz</groupId>
+            <artifactId>java-obj-diff</artifactId>
         </dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>

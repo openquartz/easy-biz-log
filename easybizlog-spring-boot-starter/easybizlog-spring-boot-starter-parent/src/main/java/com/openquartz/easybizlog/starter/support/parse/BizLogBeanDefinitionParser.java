@@ -10,7 +10,6 @@ import com.openquartz.easybizlog.starter.support.DefaultLogRecordServiceImpl;
 import com.openquartz.easybizlog.starter.support.aop.BeanFactoryLogRecordAdvisor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordInterceptor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordOperationSource;
-import com.openquartz.easybizlog.starter.support.diff.DefaultDiffItemsToLogContentService;
 import org.springframework.aop.config.AopNamespaceUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
@@ -74,11 +73,6 @@ public class BizLogBeanDefinitionParser implements BeanDefinitionParser {
         logRecordServiceDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
         parserContext.getRegistry().registerBeanDefinition("logRecordService", logRecordServiceDef);
 
-        RootBeanDefinition diffItemsToLogContentServiceDef = new RootBeanDefinition(DefaultDiffItemsToLogContentService.class);
-        diffItemsToLogContentServiceDef.setSource(eleSource);
-        diffItemsToLogContentServiceDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
-
-
         RootBeanDefinition logRecordInterceptorDef = new RootBeanDefinition(LogRecordInterceptor.class);
         logRecordInterceptorDef.setSource(eleSource);
         logRecordInterceptorDef.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
@@ -109,7 +103,6 @@ public class BizLogBeanDefinitionParser implements BeanDefinitionParser {
         compositeDef.addNestedComponent(new BeanComponentDefinition(diffParseFunctionDef, "diffParseFunction"));
         compositeDef.addNestedComponent(new BeanComponentDefinition(logRecordPropertiesDef, "logRecordProperties"));
         compositeDef.addNestedComponent(new BeanComponentDefinition(logRecordServiceDef, "logRecordService"));
-        compositeDef.addNestedComponent(new BeanComponentDefinition(diffItemsToLogContentServiceDef, "diffItemsToLogContentService"));
         compositeDef.addNestedComponent(new BeanComponentDefinition(logRecordInterceptorDef, "logRecordInterceptor"));
         compositeDef.addNestedComponent(new BeanComponentDefinition(logRecordAdvisorDef, "logRecordAdvisor"));
         parserContext.registerComponent(compositeDef);

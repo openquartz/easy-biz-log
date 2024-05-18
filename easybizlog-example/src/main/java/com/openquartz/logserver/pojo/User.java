@@ -1,19 +1,16 @@
 package com.openquartz.logserver.pojo;
 
-import com.openquartz.easybizlog.core.annotation.DiffLogField;
-import com.openquartz.easybizlog.core.annotation.DiffLogAllFields;
-import com.openquartz.easybizlog.core.annotation.DIffLogIgnore;
-import lombok.Data;
-
+import com.openquartz.javaobjdiff.annotation.DiffAlias;
+import com.openquartz.javaobjdiff.annotation.DiffIgnore;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.Data;
 
 /**
  * @author svnee
  **/
 @Data
-@DiffLogAllFields
 public class User {
 
     private Long id;
@@ -25,13 +22,13 @@ public class User {
     /**
      * 年龄
      */
-    @DIffLogIgnore
+    @DiffIgnore
     private Integer age;
 
     /**
      * 性别
      */
-    @DiffLogField(name = "性别", function = "SEX")
+    @DiffAlias(alias = "性别")
     private String sex;
 
     /**
@@ -42,7 +39,7 @@ public class User {
     /**
      * 爱好
      */
-    @DIffLogIgnore
+    @DiffIgnore
     private List<String> likeList;
 
     /**
@@ -50,10 +47,10 @@ public class User {
      */
     private List<String> noLikeList;
 
-    @DIffLogIgnore
+    @DiffIgnore
     private List<Address> testList;
 
-    @DIffLogIgnore
+    @DiffIgnore
     private String[] likeStrings;
 
     private String[] noLikeStrings;

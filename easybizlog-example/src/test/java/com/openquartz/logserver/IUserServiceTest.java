@@ -1,10 +1,10 @@
 package com.openquartz.logserver;
 
 import cn.hutool.extra.spring.SpringUtil;
-import com.openquartz.logapi.beans.LogRecord;
+import com.openquartz.easybizlog.common.beans.LogRecord;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordInterceptor;
+import com.openquartz.easybizlog.storage.api.ILogRecordService;
 import com.openquartz.logserver.infrastructure.constants.LogRecordType;
-import com.openquartz.logserver.infrastructure.logrecord.service.DbLogRecordService;
 import com.openquartz.logserver.pojo.Order;
 import com.openquartz.logserver.pojo.User;
 import com.openquartz.logserver.service.IUserService;
@@ -28,7 +28,7 @@ public class IUserServiceTest extends BaseTest {
     @Resource
     private IUserService userService;
     @Resource
-    private DbLogRecordService logRecordService;
+    private ILogRecordService logRecordService;
 
     @Test
     @Sql(scripts = "/sql/clean.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
