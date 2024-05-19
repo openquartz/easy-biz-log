@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class LogRecordElasticSearchProperties {
 
     /**
-     * jdbc存储是否启用
+     * elastic-search存储是否启用
      */
     private boolean enabled = true;
 

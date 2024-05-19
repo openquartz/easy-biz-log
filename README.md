@@ -21,6 +21,15 @@
 </dependency>
 ```
 
+```xml
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-jdbc</artifactId>
+    <version>2.3.2.RELEASE</version>
+</dependency>
+```
+
 ##### 使用elastic-search存储时
 
 ```xml
@@ -29,6 +38,35 @@
     <groupId>com.openquartz</groupId>
     <artifactId>easybizlog-spring-boo-starter-es</artifactId>
     <version>1.1.0</version>
+</dependency>
+```
+
+```xml
+
+<dependency>
+    <groupId>org.elasticsearch.client</groupId>
+    <artifactId>elasticsearch-rest-high-level-client</artifactId>
+    <version>7.6.2</version>
+</dependency>
+```
+
+##### 使用mongodb存储时
+
+```xml
+
+<dependency>
+    <groupId>com.openquartz</groupId>
+    <artifactId>easybizlog-spring-boo-starter-mongodb</artifactId>
+    <version>1.2.0</version>
+</dependency>
+```
+
+```xml
+
+<dependency>
+    <groupId>org.mongodb</groupId>
+    <artifactId>mongodb-driver-sync</artifactId>
+    <version>4.2.3</version>
 </dependency>
 ```
 
