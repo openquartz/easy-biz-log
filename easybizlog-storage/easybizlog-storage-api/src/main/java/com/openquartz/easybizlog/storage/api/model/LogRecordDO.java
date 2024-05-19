@@ -3,6 +3,7 @@ package com.openquartz.easybizlog.storage.api.model;
 import com.openquartz.easybizlog.common.beans.CodeVariableType;
 import com.openquartz.easybizlog.common.beans.LogRecord;
 import com.openquartz.easybizlog.common.serde.JSONUtil;
+import com.openquartz.easybizlog.common.serde.Serializer;
 import com.openquartz.easybizlog.common.serde.json.TypeReference;
 import com.openquartz.easybizlog.common.utils.StringUtils;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 @Data
-public class LogRecordDO {
+public class LogRecordDO implements Serializer {
 
     /**
      * id
@@ -126,5 +127,15 @@ public class LogRecordDO {
             logRecord.setCodeVariable(toBean);
         }
         return logRecord;
+    }
+
+    @Override
+    public String serialize(Object object) {
+        return DEFAULT.serialize(object);
+    }
+
+    @Override
+    public <T> T deserialize(Class<T> type, String str) {
+        return DEFAULT.deserialize(type, str);
     }
 }
