@@ -30,3 +30,12 @@ spring:
     testOnBorrow: false
     testOnReturn: false
     poolPreparedStatements: true
+ebl:
+  log:
+    record:
+      storage:
+        es:
+          source:
+            hosts: localhost:9200
+            username: elastic
+            password: changeme

@@ -5,25 +5,43 @@
 2、使用[`java-obj-diff`](https://github.com/openquartz/java-obj-diff)项目做对象差异比对工具。支持自定义对象解析,自定义类型比较器,差异结果脱敏等特性。
 
 ## 快速入门
+
 ### 基本使用
 
 #### maven依赖添加对应的starter依赖
-使用jdbc-mysql存储时, 需要添加对应的依赖
+
+##### 使用jdbc-mysql存储时
+
+```xml
+
+<dependency>
+    <groupId>com.openquartz</groupId>
+    <artifactId>easybizlog-spring-boo-starter-jdbc</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
-        <dependency>
-          <groupId>com.openquartz</groupId>
-          <artifactId>easybizlog-spring-boo-starter-jdbc</artifactId>
-          <version>1.0.0</version>
-        </dependency>
+
+##### 使用elastic-search存储时
+
+```xml
+
+<dependency>
+    <groupId>com.openquartz</groupId>
+    <artifactId>easybizlog-spring-boo-starter-es</artifactId>
+    <version>1.1.0</version>
+</dependency>
 ```
 
 #### 日志埋点
+
 ###### 1. 普通的记录日志
 
-* type：是拼接在 bizNo 上作为 log 的一个标识。避免 bizNo 都为整数 ID 的时候和其他的业务中的 ID 重复。比如订单 ID、用户 ID 等，type可以是订单或者用户
+* type：是拼接在 bizNo 上作为 log 的一个标识。避免 bizNo 都为整数 ID 的时候和其他的业务中的 ID 重复。比如订单 ID、用户 ID
+  等，type可以是订单或者用户
 * bizNo：就是业务的 ID，比如订单ID，我们查询的时候可以根据 bizNo 查询和它相关的操作日志
 * success：方法调用成功后把 success 记录在日志的内容中
-* SpEL 表达式：其中用双大括号包围起来的（例如：{{#order.purchaseName}}）#order.purchaseName 是 SpEL表达式。Spring中支持的它都支持的。比如调用静态方法，三目表达式。SpEL 可以使用方法中的任何参数
+* SpEL 表达式：其中用双大括号包围起来的（例如：{{#order.purchaseName}}）#order.purchaseName 是
+  SpEL表达式。Spring中支持的它都支持的。比如调用静态方法，三目表达式。SpEL 可以使用方法中的任何参数
 
 ```
     @LogRecord(
@@ -57,6 +75,7 @@
         return true;
     }
 ```
+
 其中的 #_errorMsg 是取的方法抛出异常后的异常的 errorMessage。
 
 ###### 3. 日志支持子类型
@@ -78,9 +97,11 @@
         return true;
     }
 ```
+
 ###### 4. 支持记录操作的详情或者额外信息
 
-如果一个操作修改了很多字段，但是success的日志模版里面防止过长不能把修改详情全部展示出来，这时候需要把修改的详情保存到 extra 字段， extra 是一个 String ，需要自己序列化。这里的 #order.toString()
+如果一个操作修改了很多字段，但是success的日志模版里面防止过长不能把修改详情全部展示出来，这时候需要把修改的详情保存到
+extra 字段， extra 是一个 String ，需要自己序列化。这里的 #order.toString()
 是调用了 Order 的 toString() 方法。 如果保存 JSON，自己重写一下 Order 的 toString() 方法就可以。
 
 ```
@@ -97,9 +118,11 @@
         return true;
     }
 ```
+
 ###### 5. 如何指定操作日志的操作人是什么？ 框架提供了两种方法
 
 * 第一种：手工在LogRecord的注解上指定。这种需要方法参数上有operator
+
 ```
     @LogRecord(
             operator = "{{#currentUser}}",
@@ -111,11 +134,14 @@
         return true;
     }
 ```
+
 这种方法手工指定，需要方法参数上有 operator 参数，或者通过 SpEL 调用静态方法获取当前用户。
 
 * 第二种： 通过默认实现类来自动的获取操作人，由于在大部分web应用中当前的用户都是保存在一个线程上下文中的，所以每个注解都加一个operator获取操作人显得有些重复劳动，所以提供了一个扩展接口来获取操作人
-  框架提供了一个扩展接口，使用框架的业务可以 implements 这个接口自己实现获取当前用户的逻辑， 对于使用 Springboot 的只需要实现 IOperatorGetService 接口，然后把这个 Service
+  框架提供了一个扩展接口，使用框架的业务可以 implements 这个接口自己实现获取当前用户的逻辑， 对于使用 Springboot 的只需要实现
+  IOperatorGetService 接口，然后把这个 Service
   作为一个单例放到 Spring 的上下文中。使用 Spring Mvc 的就需要自己手工装配这些 bean 了。
+
 ```
 @Configuration
 public class LogRecordConfiguration {
@@ -140,10 +166,13 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
     }
 }
 ```
+
 ###### 6. 日志文案调整
+
 对于更新等方法，方法的参数上大部分都是订单ID、或者产品ID等，
 比如下面的例子：日志记录的success内容是："更新了订单{{#orderId}},更新内容为...."，这种对于运营或者产品来说难以理解，所以引入了自定义函数的功能。
-使用方法是在原来的变量的两个大括号之间加一个函数名称 例如 "{ORDER{#orderId}}" 其中 ORDER 是一个函数名称。只有一个函数名称是不够的,需要添加这个函数的定义和实现。可以看下面例子
+使用方法是在原来的变量的两个大括号之间加一个函数名称 例如 "{ORDER{#orderId}}" 其中 ORDER
+是一个函数名称。只有一个函数名称是不够的,需要添加这个函数的定义和实现。可以看下面例子
 自定义的函数需要实现框架里面的IParseFunction的接口，需要实现两个方法：
 
 * functionName() 方法就返回注解上面的函数名；
@@ -151,7 +180,8 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 * executeBefore() true：这个函数解析在注解方法执行之前运行，false：方法执行之后。有些更新方法，需要在更新之前查询出数据，这时候可以吧executeBefore返回true，
   executeBefore为true的时候函数内不能使用_ret和errorMsg的内置变量
 
-* apply()函数参数是 "{ORDER{#orderId}}"中SpEL解析的#orderId的值，这里是一个数字1223110，接下来只需要在实现的类中把 ID 转换为可读懂的字符串就可以了，
+* apply()函数参数是 "{ORDER{#orderId}}"中SpEL解析的#orderId的值，这里是一个数字1223110，接下来只需要在实现的类中把 ID
+  转换为可读懂的字符串就可以了，
   一般为了方便排查问题需要把名称和ID都展示出来，例如："订单名称（ID）"的形式。
 
 ```
@@ -199,6 +229,7 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
         }
     }
 ```
+
 ###### 7. 日志文案调整 使用 SpEL 三目表达式
 
 ```
@@ -211,7 +242,8 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 ###### 8. 日志文案调整 模版中使用方法参数之外的变量&函数中也可以使用Context中变量
 
-可以在方法中通过 LogRecordContext.putVariable(variableName, Object) 的方法添加变量，第一个对象为变量名称，后面为变量的对象， 然后我们就可以使用 SpEL 使用这个变量了，例如：例子中的
+可以在方法中通过 LogRecordContext.putVariable(variableName, Object) 的方法添加变量，第一个对象为变量名称，后面为变量的对象，
+然后我们就可以使用 SpEL 使用这个变量了，例如：例子中的
 {{#innerOrder.productName}} 是在方法中设置的变量，除此之外，在上面提到的自定义函数中也可以使用LogRecordContext中的变量。
 
 若想跨方法使用，可通过LogRecordContext.putGlobalVariable(variableName, Object) 放入上下文中，此优先级为最低，若方法上下文中存在相同的变量，则会覆盖
@@ -233,7 +265,8 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 ###### 9. 函数中使用LogRecordContext的变量
 
-使用 LogRecordContext.putVariable(variableName, Object) 添加的变量除了可以在注解的 SpEL 表达式上使用，还可以在自定义函数中使用 这种方式比较复杂，下面例子中示意了列表的变化，比如
+使用 LogRecordContext.putVariable(variableName, Object) 添加的变量除了可以在注解的 SpEL 表达式上使用，还可以在自定义函数中使用
+这种方式比较复杂，下面例子中示意了列表的变化，比如
 从[A,B,C] 改到 [B,D] 那么日志显示：「删除了A，增加了D」
 
 ```
@@ -292,7 +325,8 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 ###### 10. 使用 condition，满足条件的时候才记录日志
 
-比如下面的例子：condition 变量为空的情况 才记录日志；condition 中的 SpEL 表达式必须是 bool 类型才生效。不配置 condition 默认日志都记录
+比如下面的例子：condition 变量为空的情况 才记录日志；condition 中的 SpEL 表达式必须是 bool 类型才生效。不配置 condition
+默认日志都记录
 
 ```
     @LogRecord(success = "更新了订单ORDER{#orderId}},更新内容为...",
@@ -310,7 +344,8 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
 
 ###### 12. 增加了操作日志 Monitor 监控接口
 
-用户可以自己实现 ILogRecordPerformanceMonitor 接口，实现对日志性能的监控。默认是 DefaultLogRecordPerformanceMonitor 需要开启 debug 才能打印日志
+用户可以自己实现 ILogRecordPerformanceMonitor 接口，实现对日志性能的监控。默认是 DefaultLogRecordPerformanceMonitor 需要开启
+debug 才能打印日志
 
 ```
 //开启debug方法：
@@ -329,7 +364,8 @@ ns         %     Task name
 
 ###### 13.记录成功日志的条件
 
-默认逻辑：被注解的方法不抛出异常会记录 success 的日志内容，抛出异常会记录 fail 的日志内容， 当指定了 successCondition 后 successCondition 表达式为true的时候才会记录
+默认逻辑：被注解的方法不抛出异常会记录 success 的日志内容，抛出异常会记录 fail 的日志内容， 当指定了 successCondition 后
+successCondition 表达式为true的时候才会记录
 success内容，否则记录 fail 内容
 
 ```
@@ -346,8 +382,10 @@ success内容，否则记录 fail 内容
 
 ###### 14.日志记录与业务逻辑一起回滚
 
-默认日志记录错误不影响业务的流程，若希望日志记录过程如果出现异常，让业务逻辑也一起回滚，在 @EnableLogRecord 中 joinTransaction 属性设置为 true，
+默认日志记录错误不影响业务的流程，若希望日志记录过程如果出现异常，让业务逻辑也一起回滚，在 @EnableLogRecord 中
+joinTransaction 属性设置为 true，
 另外 @EnableTransactionManagement order 属性设置为0 (让事务的优先级在@EnableLogRecord之前)
+
 ```
 @EnableLogRecord(tenant = "com.openquartz.test", joinTransaction = true)
 @EnableTransactionManagement(order = 0)
@@ -362,6 +400,7 @@ public class Main {
 ###### 15.方法记录多条日志
 
 若希望一个方法记录多条日志，在方法上重复写两个注解即可，前提是两个注解**不相同**
+
 ```
     @LogRecord(
             subType = "MANAGER_VIEW", extra = "{{#order.toString()}}",
@@ -378,19 +417,22 @@ public class Main {
 ```
 
 ###### 16.用对象的`equals`和`toString`
+
 框架给到用户的比对结果可能不符合用户预期，在此框架提供重载比对方法。
 如在`LocalDate`比对中，默认输出结果为：
 > 【localDate的dayOfMonth】从【1】修改为【4】；【localDate的dayOfWeek】从【WEDNESDAY】修改为【SATURDAY】；【localDate的dayOfYear】从【32】修改为【35】
 
 在配置文件中加入，`ebl.log.record.useEqualsMethod`，**需要填入类的全路径，多个类用英文逗号分割**
+
 ```
 mzt:
   log:
     record:
       useEqualsMethod: java.time.LocalDate,java.time.Instant
 ```
+
 重载后的比对结果为：
->【localDate】从【2023-02-24】修改为【-999999999-01-01】
+> 【localDate】从【2023-02-24】修改为【-999999999-01-01】
 
 #### 框架的扩展点
 
@@ -409,8 +451,12 @@ public class DefaultOperatorGetServiceImpl implements IOperatorGetService {
     }
 }
 ```
+
 * ILogRecordService 保存/查询日志的例子,使用者可以根据数据量保存到合适的存储介质上，比如保存在数据库/或者ES。自己实现保存和删除就可以了
-> 也可以只实现保存的接口，毕竟已经保存在业务的存储上了，查询业务可以自己实现，不走 ILogRecordService 这个接口，毕竟产品经理会提一些千奇百怪的查询需求。
+
+> 也可以只实现保存的接口，毕竟已经保存在业务的存储上了，查询业务可以自己实现，不走 ILogRecordService
+> 这个接口，毕竟产品经理会提一些千奇百怪的查询需求。
+
 ```
 @Service
 public class DbLogRecordServiceImpl implements ILogRecordService {
@@ -437,7 +483,9 @@ public class DbLogRecordServiceImpl implements ILogRecordService {
     }
 }
 ```
+
 * IParseFunction 自定义转换函数的接口，可以实现IParseFunction 实现对LogRecord注解中使用的函数扩展 例子：
+
 ```
 @Component
 public class UserParseFunction implements IParseFunction {
@@ -476,7 +524,8 @@ public class UserParseFunction implements IParseFunction {
 
 #### 变量相关
 
-> LogRecord 可以使用的变量出了参数也可以使用返回值 #_ret 变量，以及异常的错误信息 #_errorMsg，也可以通过 SpEL 的 T 方式调用静态方法噢
+> LogRecord 可以使用的变量出了参数也可以使用返回值 #_ret 变量，以及异常的错误信息 #_errorMsg，也可以通过 SpEL 的 T
+> 方式调用静态方法噢
 
 
 

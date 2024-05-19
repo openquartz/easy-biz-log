@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.openquartz.easybizlog.starter.es.autoconfig.LogRecordElasticSearchProperties
+com.openquartz.easybizlog.starter.es.autoconfig.LogRecordElasticSearchAutoConfiguration
