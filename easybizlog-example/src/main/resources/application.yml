@@ -39,3 +39,5 @@ ebl:
             hosts: localhost:9200
             username: elastic
             password: changeme
+        mongodb:
+          url: mongodb://localhost:27017/ebl_log
