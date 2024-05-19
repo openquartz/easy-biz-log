@@ -1,4 +1,4 @@
-# Springboot-注解-通用操作日志组件
+# Springboot-Starter-注解-通用操作日志组件
 
 本项目基于项目 [`mzt-biz-log`](https://github.com/mouzt/mzt-biz-log) 做了一些定制改造优化。\
 1、更加适配多种定制存储starter包的扩展，例如：MySql、MongoDB、ElasticSearch等。\
