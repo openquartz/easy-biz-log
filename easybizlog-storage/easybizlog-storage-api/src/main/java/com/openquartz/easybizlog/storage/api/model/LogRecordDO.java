@@ -1,4 +1,4 @@
-package com.openquartz.easybizlog.storage.jdbc.model;
+package com.openquartz.easybizlog.storage.api.model;
 
 import com.openquartz.easybizlog.common.beans.CodeVariableType;
 import com.openquartz.easybizlog.common.beans.LogRecord;
@@ -9,10 +9,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.BeanUtils;
 
 @Data
 public class LogRecordDO {
@@ -72,10 +72,41 @@ public class LogRecordDO {
     private String codeVariable;
 
     public static LogRecordDO from(LogRecord logRecord) {
-        LogRecordDO logRecordPO = new LogRecordDO();
-        BeanUtils.copyProperties(logRecord, logRecordPO);
+        LogRecordDO logRecordPO = convertToLogRecordDO(logRecord);
         logRecordPO.setCodeVariable(JSONUtil.toJson(logRecord.getCodeVariable()));
         return logRecordPO;
+    }
+
+    private static LogRecordDO convertToLogRecordDO(LogRecord logRecord) {
+        LogRecordDO logRecordDO = new LogRecordDO();
+        if (Objects.nonNull(logRecord.getId()) && logRecord.getId() instanceof Long) {
+            logRecordDO.setId((Long) logRecord.getId());
+        }
+        logRecordDO.setTenant(logRecord.getTenant());
+        logRecordDO.setType(logRecord.getType());
+        logRecordDO.setSubType(logRecord.getSubType());
+        logRecordDO.setBizNo(logRecord.getBizNo());
+        logRecordDO.setOperator(logRecord.getOperator());
+        logRecordDO.setAction(logRecord.getAction());
+        logRecordDO.setFail(logRecord.isFail());
+        logRecordDO.setCreateTime(logRecord.getCreateTime());
+        logRecordDO.setExtra(logRecord.getExtra());
+        return logRecordDO;
+    }
+
+    private static LogRecord convertToLogRecord(LogRecordDO logRecordDO) {
+        LogRecord logRecord = new LogRecord();
+        logRecord.setId(logRecordDO.getId());
+        logRecord.setTenant(logRecordDO.getTenant());
+        logRecord.setType(logRecordDO.getType());
+        logRecord.setSubType(logRecordDO.getSubType());
+        logRecord.setBizNo(logRecordDO.getBizNo());
+        logRecord.setOperator(logRecordDO.getOperator());
+        logRecord.setAction(logRecordDO.getAction());
+        logRecord.setFail(logRecordDO.isFail());
+        logRecord.setCreateTime(logRecordDO.getCreateTime());
+        logRecord.setExtra(logRecordDO.getExtra());
+        return logRecord;
     }
 
     public static List<LogRecord> from(List<LogRecordDO> logRecordPOS) {
@@ -87,8 +118,7 @@ public class LogRecordDO {
     }
 
     private static LogRecord toLogRecord(LogRecordDO logRecordPO) {
-        LogRecord logRecord = new LogRecord();
-        BeanUtils.copyProperties(logRecordPO, logRecord);
+        LogRecord logRecord = convertToLogRecord(logRecordPO);
         if (StringUtils.isNotBlank(logRecordPO.getCodeVariable())) {
             Map<CodeVariableType, Object> toBean = JSONUtil.parseObject(logRecordPO.getCodeVariable(),
                 new TypeReference<Map<CodeVariableType, Object>>() {

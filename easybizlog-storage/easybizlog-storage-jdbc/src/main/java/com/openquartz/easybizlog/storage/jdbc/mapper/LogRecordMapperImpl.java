@@ -1,7 +1,7 @@
 package com.openquartz.easybizlog.storage.jdbc.mapper;
 
 import com.openquartz.easybizlog.storage.jdbc.CustomerJdbcTemplate;
-import com.openquartz.easybizlog.storage.jdbc.model.LogRecordDO;
+import com.openquartz.easybizlog.storage.api.model.LogRecordDO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

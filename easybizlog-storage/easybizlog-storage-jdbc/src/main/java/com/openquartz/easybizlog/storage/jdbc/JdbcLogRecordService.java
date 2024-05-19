@@ -3,7 +3,7 @@ package com.openquartz.easybizlog.storage.jdbc;
 import com.openquartz.easybizlog.common.beans.LogRecord;
 import com.openquartz.easybizlog.storage.api.ILogRecordService;
 import com.openquartz.easybizlog.storage.jdbc.mapper.LogRecordMapper;
-import com.openquartz.easybizlog.storage.jdbc.model.LogRecordDO;
+import com.openquartz.easybizlog.storage.api.model.LogRecordDO;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

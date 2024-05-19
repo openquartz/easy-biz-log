@@ -1,6 +1,6 @@
 package com.openquartz.easybizlog.storage.jdbc.mapper;
 
-import com.openquartz.easybizlog.storage.jdbc.model.LogRecordDO;
+import com.openquartz.easybizlog.storage.api.model.LogRecordDO;
 import java.util.List;
 
 /**
