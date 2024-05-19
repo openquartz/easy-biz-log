@@ -1,5 +1,6 @@
 package com.openquartz.easybizlog.starter.autoconfig;
 
+import com.openquartz.easybizlog.common.concurrent.DirectExecutor;
 import com.openquartz.easybizlog.core.service.IFunctionService;
 import com.openquartz.easybizlog.core.service.ILogRecordPerformanceMonitor;
 import com.openquartz.easybizlog.core.service.IOperatorGetService;
@@ -18,8 +19,10 @@ import com.openquartz.easybizlog.storage.api.ILogRecordService;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -81,14 +84,23 @@ public class LogRecordAutoConfiguration {
 
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
-    public LogRecordInterceptor logRecordInterceptor(LogRecordProperties logRecordProperties) {
+    public LogRecordInterceptor logRecordInterceptor(LogRecordProperties logRecordProperties,
+        @Qualifier("executeSaveLogExecutor") Executor executeSaveLogExecutor) {
         LogRecordInterceptor interceptor = new LogRecordInterceptor();
         interceptor.setLogRecordOperationSource(logRecordOperationSource());
         interceptor.setTenant(logRecordProperties.getTenant());
         interceptor.setJoinTransaction(logRecordProperties.getJoinTransaction());
         interceptor.setDiffLog(logRecordProperties.getDiffLog());
         interceptor.setLogRecordPerformanceMonitor(logRecordPerformanceMonitor());
+        interceptor.setExecuteSaveLogExecutor(executeSaveLogExecutor);
         return interceptor;
+    }
+
+    @Bean
+    @Role(BeanDefinition.ROLE_APPLICATION)
+    @ConditionalOnMissingBean(name = "executeSaveLogExecutor")
+    public Executor executeSaveLogExecutor() {
+        return new DirectExecutor();
     }
 
     @Bean
