@@ -31,7 +31,7 @@
         <druid.version>1.2.0</druid.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
         <podam.version>7.2.7.RELEASE</podam.version>
-
+        <mongodb.version>4.2.3</mongodb.version>
 
         <maven.javadoc.failOnError>false</maven.javadoc.failOnError>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -166,6 +166,12 @@
                 <groupId>com.openquartz</groupId>
                 <artifactId>java-obj-diff</artifactId>
                 <version>${java-object-diff.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongodb-driver-sync</artifactId>
+                <version>${mongodb.version}</version>
             </dependency>
 
         </dependencies>
