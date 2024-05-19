@@ -40,7 +40,7 @@ import org.springframework.core.Ordered;
 @AutoConfigureOrder(Ordered.HIGHEST_PRECEDENCE + 10060)
 public class LogRecordElasticSearchAutoConfiguration {
 
-    @Bean
+    @Bean(destroyMethod = "close")
     @ConditionalOnClass(RestHighLevelClient.class)
     @ConditionalOnMissingBean(RestHighLevelClient.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
