@@ -559,6 +559,9 @@ public class UserParseFunction implements IParseFunction {
     }
 }
 ```
+* 异步保存日志支持
+
+默认同步方式。如需异步保存日志可以注入Bean 到Spring中，Bean 名称为 `executeSaveLogExecutor`.
 
 #### 变量相关
 
