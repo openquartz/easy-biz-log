@@ -49,8 +49,8 @@ public class LogRecordJdbcAutoConfiguration {
     @ConditionalOnBean(JdbcTemplate.class)
     @ConditionalOnMissingBean(LogRecordMapper.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
-    public LogRecordMapper logRecordMapper(JdbcTemplate jdbcTemplate) {
-        return new LogRecordMapperImpl(jdbcTemplate);
+    public LogRecordMapper logRecordMapper(JdbcTemplate jdbcTemplate, LogRecordJdbcProperties logRecordJdbcProperties) {
+        return new LogRecordMapperImpl(jdbcTemplate, logRecordJdbcProperties.getTable());
     }
 
     @Bean

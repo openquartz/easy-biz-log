@@ -1,7 +1,7 @@
 package com.openquartz.easybizlog.storage.jdbc.mapper;
 
-import com.openquartz.easybizlog.storage.jdbc.CustomerJdbcTemplate;
 import com.openquartz.easybizlog.storage.api.model.LogRecordDO;
+import com.openquartz.easybizlog.storage.jdbc.CustomerJdbcTemplate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,47 +19,50 @@ public class LogRecordMapperImpl implements LogRecordMapper {
 
     private final JdbcTemplate jdbcTemplate;
     private final CustomerJdbcTemplate customerJdbcTemplate;
+    private final String table;
 
     /**
      * GeneratedKey
      */
     public static final String GENERATED_KEY = "GENERATED_KEY";
 
-    private static final String INSERT_SQL = "insert into ebl_biz_log(biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time) values(?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT_SQL = "insert into %s(biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time) values(?,?,?,?,?,?,?,?,?,?)";
 
-    private static final String SELECT_BIZ_NO_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from ebl_biz_log where biz_no = ? and type = ?";
+    private static final String SELECT_BIZ_NO_TYPE_SQL = "select id,biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time from %s where biz_no = ? and type = ?";
 
-    private static final String SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL = "select id,biz_no,type,action,operator,fail,extra,sub_type,code_variable,tenant,create_time from ebl_biz_log where biz_no = ? and type = ? and sub_type = ?";
+    private static final String SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL = "select id,biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time from %s where biz_no = ? and type = ? and sub_type = ?";
 
-    public LogRecordMapperImpl(JdbcTemplate jdbcTemplate) {
+    public LogRecordMapperImpl(JdbcTemplate jdbcTemplate, String table) {
         this.jdbcTemplate = jdbcTemplate;
         this.customerJdbcTemplate = new CustomerJdbcTemplate(jdbcTemplate);
+        this.table = table;
     }
 
     @Override
     public void save(LogRecordDO entity) {
 
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
-        customerJdbcTemplate.batchUpdate(INSERT_SQL, new BatchPreparedStatementSetter() {
-            @Override
-            public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
-                ps.setString(1, entity.getBizNo());
-                ps.setString(2, entity.getType());
-                ps.setString(3, entity.getAction());
-                ps.setString(4, entity.getOperator());
-                ps.setInt(5, entity.isFail() ? 1 : 0);
-                ps.setString(6, entity.getExtra());
-                ps.setString(7, entity.getSubType());
-                ps.setString(8, entity.getCodeVariable());
-                ps.setString(9, entity.getTenant());
-                ps.setTimestamp(10, new Timestamp(entity.getCreateTime().getTime()));
-            }
+        customerJdbcTemplate.batchUpdate(String.format(INSERT_SQL, table),
+            new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
+                    ps.setString(1, entity.getBizNo());
+                    ps.setString(2, entity.getType());
+                    ps.setString(3, entity.getAction());
+                    ps.setString(4, entity.getOperator());
+                    ps.setInt(5, entity.isFail() ? 1 : 0);
+                    ps.setString(6, entity.getExtra());
+                    ps.setString(7, entity.getSubType());
+                    ps.setString(8, entity.getCodeVariable());
+                    ps.setString(9, entity.getTenant());
+                    ps.setTimestamp(10, new Timestamp(entity.getCreateTime().getTime()));
+                }
 
-            @Override
-            public int getBatchSize() {
-                return 1;
-            }
-        }, generatedKeyHolder);
+                @Override
+                public int getBatchSize() {
+                    return 1;
+                }
+            }, generatedKeyHolder);
 
         List<Map<String, Object>> objectMapList = generatedKeyHolder.getKeyList();
 
@@ -71,13 +74,13 @@ public class LogRecordMapperImpl implements LogRecordMapper {
     @Override
     public List<LogRecordDO> queryLog(String bizNo, String type) {
 
-        return jdbcTemplate.query(SELECT_BIZ_NO_TYPE_SQL,
+        return jdbcTemplate.query(String.format(SELECT_BIZ_NO_TYPE_SQL, table),
             (rs, rowNum) -> buildLogRecordDO(rs), bizNo, type);
     }
 
     @Override
     public List<LogRecordDO> queryLog(String bizNo, String type, String subType) {
-        return jdbcTemplate.query(SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL,
+        return jdbcTemplate.query(String.format(SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL, table),
             (rs, rowNum) -> buildLogRecordDO(rs), bizNo, type, subType);
     }
 
