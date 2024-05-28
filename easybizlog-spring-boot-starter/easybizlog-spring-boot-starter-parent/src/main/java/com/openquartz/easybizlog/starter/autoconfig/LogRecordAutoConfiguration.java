@@ -16,8 +16,6 @@ import com.openquartz.easybizlog.starter.support.aop.BeanFactoryLogRecordAdvisor
 import com.openquartz.easybizlog.starter.support.aop.LogRecordInterceptor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordOperationSource;
 import com.openquartz.easybizlog.storage.api.ILogRecordService;
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +27,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Role;
-import org.springframework.util.StringUtils;
 
 /**
  * @author svnee
@@ -104,13 +101,8 @@ public class LogRecordAutoConfiguration {
     }
 
     @Bean
-    public DiffParseFunction diffParseFunction(LogRecordProperties logRecordProperties) {
-        DiffParseFunction diffParseFunction = new DiffParseFunction();
-        diffParseFunction.addUseEqualsClass(LocalDateTime.class);
-        if (!StringUtils.isEmpty(logRecordProperties.getUseEqualsMethod())) {
-            diffParseFunction.addUseEqualsClass(Arrays.asList(logRecordProperties.getUseEqualsMethod().split(",")));
-        }
-        return diffParseFunction;
+    public DiffParseFunction diffParseFunction() {
+        return new DiffParseFunction();
     }
 
     @Bean

@@ -18,8 +18,6 @@ public class DiffParseFunction {
     public static final String diffFunctionName = "_DIFF";
     public static final String OLD_OBJECT = "_oldObj";
 
-    private final Set<Class<?>> comparisonSet = new HashSet<>();
-
     //@Override
     public String functionName() {
         return diffFunctionName;
@@ -51,22 +49,5 @@ public class DiffParseFunction {
     public String diff(Object newObj) {
         Object oldObj = LogRecordContext.getMethodOrGlobal(OLD_OBJECT);
         return diff(oldObj, newObj);
-    }
-
-    public void addUseEqualsClass(List<String> classList) {
-        if (classList != null && !classList.isEmpty()) {
-            for (String clazz : classList) {
-                try {
-                    Class<?> aClass = Class.forName(clazz);
-                    comparisonSet.add(aClass);
-                } catch (ClassNotFoundException e) {
-                    log.warn("无效的比对类型, className={}", clazz);
-                }
-            }
-        }
-    }
-
-    public void addUseEqualsClass(Class<?> clazz) {
-        comparisonSet.add(clazz);
     }
 }

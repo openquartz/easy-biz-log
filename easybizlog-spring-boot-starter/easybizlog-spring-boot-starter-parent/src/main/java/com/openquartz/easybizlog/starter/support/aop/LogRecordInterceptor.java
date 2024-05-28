@@ -277,18 +277,14 @@ public class LogRecordInterceptor extends LogRecordValueParser implements Method
         this.tenantId = tenant;
     }
 
-    public void setLogRecordService(ILogRecordService bizLogService) {
-        this.bizLogService = bizLogService;
-    }
-
     public void setDiffLog(boolean diffLog) {
         this.diffLog = diffLog;
     }
 
     @Override
     public void afterSingletonsInstantiated() {
-        bizLogService = beanFactory.getBean(ILogRecordService.class);
-        operatorGetService = beanFactory.getBean(IOperatorGetService.class);
+        this.bizLogService = beanFactory.getBean(ILogRecordService.class);
+        this.operatorGetService = beanFactory.getBean(IOperatorGetService.class);
         this.setLogFunctionParser(new LogFunctionParser(beanFactory.getBean(IFunctionService.class)));
         this.setDiffParseFunction(beanFactory.getBean(DiffParseFunction.class));
     }

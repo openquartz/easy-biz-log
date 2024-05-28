@@ -17,14 +17,9 @@ public class LogRecordProperties {
     private Boolean enabled = true;
 
     /**
-     * 是否不校验文案，全部记录日志
+     * 是否全部记录日志
      */
     private Boolean diffLog = false;
-
-    /**
-     * 是否使用equals方法进行比较
-     */
-    private String useEqualsMethod;
 
     /**
      * 租户
