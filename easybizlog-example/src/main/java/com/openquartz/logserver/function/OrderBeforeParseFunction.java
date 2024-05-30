@@ -1,13 +1,10 @@
 package com.openquartz.logserver.function;
 
 import com.openquartz.easybizlog.core.service.IParseFunction;
-import com.openquartz.logserver.service.UserQueryService;
 import com.openquartz.logserver.pojo.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import javax.annotation.Resource;
 
 /**
  * @author svnee
@@ -15,10 +12,6 @@ import javax.annotation.Resource;
 @Slf4j
 @Component
 public class OrderBeforeParseFunction implements IParseFunction {
-
-    @Resource
-//    @Lazy
-    private UserQueryService userQueryService;
 
     @Override
     public boolean executeBefore() {
