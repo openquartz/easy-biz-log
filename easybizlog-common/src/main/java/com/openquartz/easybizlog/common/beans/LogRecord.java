@@ -18,7 +18,7 @@ public class LogRecord {
     /**
      * id
      */
-    private Serializable id;
+    private Long id;
     /**
      * 租户
      */

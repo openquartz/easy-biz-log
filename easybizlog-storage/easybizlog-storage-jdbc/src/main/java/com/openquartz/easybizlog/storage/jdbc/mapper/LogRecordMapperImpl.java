@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,9 +28,8 @@ public class LogRecordMapperImpl implements LogRecordMapper {
     public static final String GENERATED_KEY = "GENERATED_KEY";
 
     private static final String INSERT_SQL = "insert into %s(biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time) values(?,?,?,?,?,?,?,?,?,?)";
-
+    private static final String INSERT_WITH_ID_SQL = "insert into %s(biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time,id) values(?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String SELECT_BIZ_NO_TYPE_SQL = "select id,biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time from %s where biz_no = ? and type = ?";
-
     private static final String SELECT_BIZ_NO_TYPE_SUB_TYPE_SQL = "select id,biz_no,type,`action`,operator,fail,extra,sub_type,code_variable,tenant,create_time from %s where biz_no = ? and type = ? and sub_type = ?";
 
     public LogRecordMapperImpl(JdbcTemplate jdbcTemplate, String table) {
@@ -41,21 +41,21 @@ public class LogRecordMapperImpl implements LogRecordMapper {
     @Override
     public void save(LogRecordDO entity) {
 
+        if (Objects.isNull(entity.getId())) {
+            saveWithoutId(entity);
+        } else {
+            saveWithId(entity);
+        }
+    }
+
+    private void saveWithoutId(LogRecordDO entity) {
+
         GeneratedKeyHolder generatedKeyHolder = new GeneratedKeyHolder();
         customerJdbcTemplate.batchUpdate(String.format(INSERT_SQL, table),
             new BatchPreparedStatementSetter() {
                 @Override
                 public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
-                    ps.setString(1, entity.getBizNo());
-                    ps.setString(2, entity.getType());
-                    ps.setString(3, entity.getAction());
-                    ps.setString(4, entity.getOperator());
-                    ps.setInt(5, entity.isFail() ? 1 : 0);
-                    ps.setString(6, entity.getExtra());
-                    ps.setString(7, entity.getSubType());
-                    ps.setString(8, entity.getCodeVariable());
-                    ps.setString(9, entity.getTenant());
-                    ps.setTimestamp(10, new Timestamp(entity.getCreateTime().getTime()));
+                    doPrepareStatement(entity, ps);
                 }
 
                 @Override
@@ -69,6 +69,27 @@ public class LogRecordMapperImpl implements LogRecordMapper {
         Map<String, Object> map = objectMapList.get(0);
         Long id = ((Number) map.get(GENERATED_KEY)).longValue();
         entity.setId(id);
+    }
+
+    private void saveWithId(LogRecordDO entity) {
+        jdbcTemplate.update(String.format(INSERT_WITH_ID_SQL, table),
+            ps -> {
+                doPrepareStatement(entity, ps);
+                ps.setLong(11, entity.getId());
+            });
+    }
+
+    private static void doPrepareStatement(LogRecordDO entity, PreparedStatement ps) throws SQLException {
+        ps.setString(1, entity.getBizNo());
+        ps.setString(2, entity.getType());
+        ps.setString(3, entity.getAction());
+        ps.setString(4, entity.getOperator());
+        ps.setInt(5, entity.isFail() ? 1 : 0);
+        ps.setString(6, entity.getExtra());
+        ps.setString(7, entity.getSubType());
+        ps.setString(8, entity.getCodeVariable());
+        ps.setString(9, entity.getTenant());
+        ps.setTimestamp(10, new Timestamp(entity.getCreateTime().getTime()));
     }
 
     @Override

@@ -33,6 +33,7 @@ public class LogRecordDO implements Serializer {
     @NotBlank(message = "type required")
     @Length(max = 200, message = "type max length is 200")
     private String type;
+
     /**
      * 日志的子类型，比如订单的C端日志，和订单的B端日志，type都是订单类型，但是子类型不一样
      */
@@ -80,8 +81,8 @@ public class LogRecordDO implements Serializer {
 
     private static LogRecordDO convertToLogRecordDO(LogRecord logRecord) {
         LogRecordDO logRecordDO = new LogRecordDO();
-        if (Objects.nonNull(logRecord.getId()) && logRecord.getId() instanceof Long) {
-            logRecordDO.setId((Long) logRecord.getId());
+        if (Objects.nonNull(logRecord.getId())) {
+            logRecordDO.setId(logRecord.getId());
         }
         logRecordDO.setTenant(logRecord.getTenant());
         logRecordDO.setType(logRecord.getType());

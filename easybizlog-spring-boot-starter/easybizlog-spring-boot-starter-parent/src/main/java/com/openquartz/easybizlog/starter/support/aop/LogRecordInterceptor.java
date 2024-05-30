@@ -16,6 +16,7 @@ import com.openquartz.easybizlog.core.service.impl.DiffParseFunction;
 import com.openquartz.easybizlog.starter.support.parse.LogFunctionParser;
 import com.openquartz.easybizlog.starter.support.parse.LogRecordValueParser;
 import com.openquartz.easybizlog.storage.api.ILogRecordService;
+import com.openquartz.easybizlog.storage.api.id.IdGenerator;
 import java.util.concurrent.Executor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -41,20 +42,17 @@ public class LogRecordInterceptor extends LogRecordValueParser implements Method
 
     @Setter
     private LogRecordOperationSource logRecordOperationSource;
-
     private String tenantId;
-
     private ILogRecordService bizLogService;
-
     private IOperatorGetService operatorGetService;
-
     @Setter
     private ILogRecordPerformanceMonitor logRecordPerformanceMonitor;
-
     @Setter
     private boolean joinTransaction;
     @Setter
     private Executor executeSaveLogExecutor;
+    @Setter
+    private IdGenerator idGenerator;
 
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -217,6 +215,7 @@ public class LogRecordInterceptor extends LogRecordValueParser implements Method
             return;
         }
         LogRecord logRecord = LogRecord.builder()
+            .id(Objects.nonNull(idGenerator) ? idGenerator.nextId() : null)
             .tenant(tenantId)
             .type(expressionValues.get(operation.getType()))
             .bizNo(expressionValues.get(operation.getBizNo()))

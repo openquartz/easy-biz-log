@@ -16,6 +16,7 @@ import com.openquartz.easybizlog.starter.support.aop.BeanFactoryLogRecordAdvisor
 import com.openquartz.easybizlog.starter.support.aop.LogRecordInterceptor;
 import com.openquartz.easybizlog.starter.support.aop.LogRecordOperationSource;
 import com.openquartz.easybizlog.storage.api.ILogRecordService;
+import com.openquartz.easybizlog.storage.api.id.IdGenerator;
 import java.util.List;
 import java.util.concurrent.Executor;
 import lombok.extern.slf4j.Slf4j;
@@ -82,7 +83,8 @@ public class LogRecordAutoConfiguration {
     @Bean
     @Role(BeanDefinition.ROLE_INFRASTRUCTURE)
     public LogRecordInterceptor logRecordInterceptor(LogRecordProperties logRecordProperties,
-        @Qualifier("executeSaveLogExecutor") Executor executeSaveLogExecutor) {
+        @Qualifier("executeSaveLogExecutor") Executor executeSaveLogExecutor,
+        @Autowired(required = false) IdGenerator idGenerator) {
         LogRecordInterceptor interceptor = new LogRecordInterceptor();
         interceptor.setLogRecordOperationSource(logRecordOperationSource());
         interceptor.setTenant(logRecordProperties.getTenant());
@@ -90,6 +92,7 @@ public class LogRecordAutoConfiguration {
         interceptor.setDiffLog(logRecordProperties.getDiffLog());
         interceptor.setLogRecordPerformanceMonitor(logRecordPerformanceMonitor());
         interceptor.setExecuteSaveLogExecutor(executeSaveLogExecutor);
+        interceptor.setIdGenerator(idGenerator);
         return interceptor;
     }
 

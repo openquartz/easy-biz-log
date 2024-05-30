@@ -570,5 +570,10 @@ public class UserParseFunction implements IParseFunction {
 > LogRecord 可以使用的变量出了参数也可以使用返回值 #_ret 变量，以及异常的错误信息 #_errorMsg，也可以通过 SpEL 的 T
 > 方式调用静态方法噢
 
+### 存储
+#### ID生成
+如果使用数据库jdbc存储方式，支持用数据自增ID。可以不用设置实现主键自增器.`com.openquartz.easybizlog.storage.api.id.IdGenerator`.并设置到Spring工厂中。
+
+如果使用其他类型存储.例如：ES、MongoDB等。需要提供自定义的ID生成器，实现`com.openquartz.easybizlog.storage.api.id.IdGenerator`接口，并设置到Spring工厂中。
 
 
