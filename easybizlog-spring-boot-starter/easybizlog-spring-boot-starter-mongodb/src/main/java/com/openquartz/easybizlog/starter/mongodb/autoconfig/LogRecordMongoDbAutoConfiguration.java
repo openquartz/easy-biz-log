@@ -57,7 +57,7 @@ public class LogRecordMongoDbAutoConfiguration {
             logRecordMongoDbProperties.getCollection());
     }
 
-    @Bean
+    @Bean(destroyMethod = "clean")
     @Primary
     @ConditionalOnBean(LogRecordMapper.class)
     @Role(BeanDefinition.ROLE_APPLICATION)

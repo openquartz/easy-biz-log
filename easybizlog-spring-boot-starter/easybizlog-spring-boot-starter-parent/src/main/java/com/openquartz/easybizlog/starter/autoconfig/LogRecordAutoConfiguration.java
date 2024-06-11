@@ -115,7 +115,7 @@ public class LogRecordAutoConfiguration {
         return new DefaultOperatorGetServiceImpl();
     }
 
-    @Bean
+    @Bean(destroyMethod = "clean")
     @ConditionalOnMissingBean(ILogRecordService.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
     public ILogRecordService defaultRecordService() {

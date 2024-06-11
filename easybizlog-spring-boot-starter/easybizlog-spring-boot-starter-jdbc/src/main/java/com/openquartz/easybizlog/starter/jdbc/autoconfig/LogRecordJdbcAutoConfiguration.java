@@ -53,7 +53,7 @@ public class LogRecordJdbcAutoConfiguration {
         return new LogRecordMapperImpl(jdbcTemplate, logRecordJdbcProperties.getTable());
     }
 
-    @Bean
+    @Bean(destroyMethod = "clean")
     @Primary
     @ConditionalOnBean(LogRecordMapper.class)
     @Role(BeanDefinition.ROLE_APPLICATION)

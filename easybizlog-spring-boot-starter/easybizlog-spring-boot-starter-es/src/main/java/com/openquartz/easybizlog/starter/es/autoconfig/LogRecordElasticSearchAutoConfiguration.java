@@ -73,7 +73,7 @@ public class LogRecordElasticSearchAutoConfiguration {
         return new LogRecordMapperImpl(restHighLevelClient, logRecordElasticSearchProperties.getIndex());
     }
 
-    @Bean
+    @Bean(destroyMethod = "clean")
     @Primary
     @ConditionalOnBean(LogRecordMapper.class)
     @Role(BeanDefinition.ROLE_APPLICATION)
