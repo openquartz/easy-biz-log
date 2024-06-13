@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.openquartz.easybizlog.starter.autoconfig.LogRecordAutoConfiguration
+com.openquartz.easybizlog.starter.autoconfig.LogRecordAutoConfiguration
