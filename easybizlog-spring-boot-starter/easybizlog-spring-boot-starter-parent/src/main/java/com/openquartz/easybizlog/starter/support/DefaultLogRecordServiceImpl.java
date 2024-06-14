@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultLogRecordServiceImpl implements ILogRecordService {
 
     @Override
-    public void record(LogRecord logRecord) {
+    public void recordLog(LogRecord logRecord) {
         log.info("[DefaultLogRecordService] record:{}", logRecord);
     }
 

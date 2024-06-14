@@ -31,7 +31,7 @@ public class SkuServiceImpl implements SkuService {
             type = LogRecordType.SKU, bizNo = "{{#sku.code}}")
     public Long createObjectSkuNoJoinTransaction(ObjectSku sku) {
         com.openquartz.easybizlog.common.beans.LogRecord logRecord = getLogRecord(sku);
-        logRecordService.record(logRecord);
+        logRecordService.recordLog(logRecord);
         return null;
     }
 
@@ -58,7 +58,7 @@ public class SkuServiceImpl implements SkuService {
             type = LogRecordType.SKU, bizNo = "{{#sku.code}}")
     public Long createObjectBusinessError(ObjectSku sku) {
         com.openquartz.easybizlog.common.beans.LogRecord logRecord = getLogRecord(sku);
-        logRecordService.record(logRecord);
+        logRecordService.recordLog(logRecord);
         int i = 1 / 0;
         return null;
     }
@@ -72,7 +72,7 @@ public class SkuServiceImpl implements SkuService {
             type = LogRecordType.SKU, bizNo = "{{#sku.code}}")
     public Long createObjectBusinessError2(ObjectSku sku) {
         com.openquartz.easybizlog.common.beans.LogRecord logRecord = getLogRecord(sku);
-        logRecordService.record(logRecord);
+        logRecordService.recordLog(logRecord);
         int i = 1 / 0;
         return null;
     }
@@ -88,7 +88,7 @@ public class SkuServiceImpl implements SkuService {
     public Long createObjectSkuNoJoinTransactionRollBack(ObjectSku sku) {
         com.openquartz.easybizlog.common.beans.LogRecord logRecord = getLogRecord(sku);
         logRecord.setExtra("不回滚");
-        logRecordService.record(logRecord);
+        logRecordService.recordLog(logRecord);
         return null;
     }
 }

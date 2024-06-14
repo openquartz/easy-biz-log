@@ -228,7 +228,7 @@ public class LogRecordInterceptor extends LogRecordValueParser implements Method
             .createTime(new Date())
             .build();
 
-        executeSaveLogExecutor.execute(() -> bizLogService.record(logRecord));
+        executeSaveLogExecutor.execute(() -> bizLogService.recordLog(logRecord));
     }
 
     private Map<CodeVariableType, Object> getCodeVariable(Method method) {

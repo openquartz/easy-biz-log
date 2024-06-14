@@ -15,7 +15,7 @@ public class JdbcLogRecordService implements ILogRecordService {
     private final LogRecordMapper logRecordMapper;
 
     @Override
-    public void record(LogRecord logRecord) {
+    public void recordLog(LogRecord logRecord) {
         logRecordMapper.save(LogRecordDO.from(logRecord));
     }
 

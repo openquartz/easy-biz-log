@@ -14,7 +14,7 @@ public interface ILogRecordService {
      *
      * @param logRecord 日志实体
      */
-    void record(LogRecord logRecord);
+    void recordLog(LogRecord logRecord);
 
     /**
      * 返回最多100条记录
