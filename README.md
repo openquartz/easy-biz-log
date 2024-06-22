@@ -63,7 +63,7 @@
 
 <dependency>
     <groupId>com.openquartz</groupId>
-    <artifactId>easybizlog-spring-boo-starter-mongodb</artifactId>
+    <artifactId>easybizlog-spring-boot-starter-mongodb</artifactId>
     <version>1.2.0</version>
 </dependency>
 ```
