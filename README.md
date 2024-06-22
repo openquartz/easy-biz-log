@@ -23,7 +23,7 @@
 
 <dependency>
     <groupId>com.openquartz</groupId>
-    <artifactId>easybizlog-spring-boo-starter-jdbc</artifactId>
+    <artifactId>easybizlog-spring-boot-starter-jdbc</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -43,7 +43,7 @@
 
 <dependency>
     <groupId>com.openquartz</groupId>
-    <artifactId>easybizlog-spring-boo-starter-es</artifactId>
+    <artifactId>easybizlog-spring-boot-starter-es</artifactId>
     <version>1.1.0</version>
 </dependency>
 ```
