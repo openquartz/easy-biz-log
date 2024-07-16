@@ -469,13 +469,6 @@ public class Main {
 
 在配置文件中加入，`ebl.log.record.useEqualsMethod`，**需要填入类的全路径，多个类用英文逗号分割**
 
-```
-mzt:
-  log:
-    record:
-      useEqualsMethod: java.time.LocalDate,java.time.Instant
-```
-
 重载后的比对结果为：
 > 【localDate】从【2023-02-24】修改为【-999999999-01-01】
 
